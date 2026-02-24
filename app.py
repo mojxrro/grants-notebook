@@ -219,15 +219,16 @@ def fmt_pct(val: float) -> str:
     return f"{sign}{val:,.2f}%"
 
 
-def kpi_card(label: str, value_str: str, sub_str: str = "", color: str = "neutral") -> str:
-    sub_html = f'<div class="kpi-sub {color}">{sub_str}</div>' if sub_str else ""
-    return f"""
-    <div class="kpi-card">
-        <div class="kpi-label">{label}</div>
-        <div class="kpi-value {color}">{value_str}</div>
-        {sub_html}
-    </div>
-    """
+def render_kpi(col, label: str, value_str: str, sub_str: str = "", delta_val: float = 0):
+    with col:
+        color = "#22c55e" if delta_val > 0 else "#ef4444" if delta_val < 0 else "#e5e7eb"
+        st.markdown(f"""
+        <div style="background:#111827; border:1px solid #1f2937; border-radius:10px; padding:1rem 1.25rem;">
+            <div style="font-size:0.7rem; font-weight:500; color:#6b7280; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:0.3rem;">{label}</div>
+            <div style="font-size:1.35rem; font-weight:700; font-family:'JetBrains Mono',monospace; color:{color};">{value_str}</div>
+            <div style="font-size:0.75rem; font-family:'JetBrains Mono',monospace; color:{color}; margin-top:0.15rem;">{sub_str}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
 
 # ─── Load Holdings ──────────────────────────────────────────────────────────────
@@ -409,14 +410,12 @@ ret_ytd = (pnl_ytd / ytd_start_val * 100) if ytd_start_val else 0
 
 agg_return = (total_pnl / df["total_buy"].sum()) * 100
 
-cards_html = '<div class="kpi-row">'
-cards_html += kpi_card("Portfolio Value", fmt_currency(total_value, 0), f"Cost basis: {fmt_currency(df['total_buy'].sum(), 0)}", "neutral")
-cards_html += kpi_card("Total PnL", fmt_currency(total_pnl, 0), fmt_pct(agg_return), color_class(total_pnl))
-cards_html += kpi_card("PnL (1D)", fmt_currency(pnl_1d, 0), fmt_pct(ret_1d), color_class(pnl_1d))
-cards_html += kpi_card("PnL (MTD)", fmt_currency(pnl_mtd, 0), fmt_pct(ret_mtd), color_class(pnl_mtd))
-cards_html += kpi_card("PnL (YTD)", fmt_currency(pnl_ytd, 0), fmt_pct(ret_ytd), color_class(pnl_ytd))
-cards_html += '</div>'
-st.markdown(cards_html, unsafe_allow_html=True)
+kpi_cols = st.columns(5)
+render_kpi(kpi_cols[0], "Portfolio Value", fmt_currency(total_value, 0), f"Cost basis: {fmt_currency(df['total_buy'].sum(), 0)}", 1)
+render_kpi(kpi_cols[1], "Total PnL", fmt_currency(total_pnl, 0), fmt_pct(agg_return), total_pnl)
+render_kpi(kpi_cols[2], "PnL (1D)", fmt_currency(pnl_1d, 0), fmt_pct(ret_1d), pnl_1d)
+render_kpi(kpi_cols[3], "PnL (MTD)", fmt_currency(pnl_mtd, 0), fmt_pct(ret_mtd), pnl_mtd)
+render_kpi(kpi_cols[4], "PnL (YTD)", fmt_currency(pnl_ytd, 0), fmt_pct(ret_ytd), pnl_ytd)
 
 # ─── Holdings Table ─────────────────────────────────────────────────────────────
 st.markdown("### Holdings")
