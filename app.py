@@ -383,15 +383,15 @@ badge_class = "badge-live" if market_open else "badge-closed"
 badge_text = "● LIVE" if market_open else "● MARKET CLOSED"
 
 st.markdown(f"""
-<div class="dashboard-header">
+<div style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%); border:1px solid #1e3a5f; border-radius:12px; padding:1.5rem 2rem; margin-bottom:1.2rem;">
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
-            <p class="dashboard-title">📓 Grant's Notebook</p>
+            <p style="font-size:2.75rem; font-weight:700; color:#f1f5f9; margin:0; letter-spacing:-0.5px;">📓 Grant's Notebook</p>
             <p style="font-size:1.15rem; color:#94a3b8; margin-top:0.1rem; font-style:italic;">Only Big G allowed</p>
-            <p class="dashboard-subtitle">Last refreshed: {now_et.strftime("%b %d, %Y  %I:%M:%S %p")} ET</p>
+            <p style="font-size:0.8rem; color:#64748b; margin-top:0.25rem; font-family:'JetBrains Mono',monospace;">Last refreshed: {now_et.strftime("%b %d, %Y  %I:%M:%S %p")} ET</p>
         </div>
         <div>
-            <span class="badge {badge_class}">{badge_text}</span>
+            <span style="display:inline-block; padding:0.15rem 0.6rem; border-radius:20px; font-size:0.7rem; font-weight:600; font-family:'JetBrains Mono',monospace; {'background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.3);' if market_open else 'background:rgba(107,114,128,0.15); color:#6b7280; border:1px solid rgba(107,114,128,0.3);'}">{badge_text}</span>
         </div>
     </div>
 </div>
