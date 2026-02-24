@@ -181,6 +181,8 @@ st.markdown("""
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    [data-testid="manage-app-button"] {display: none;}
+    .stDeployButton {display: none;}
 </style>
 """, unsafe_allow_html=True)
 
