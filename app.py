@@ -385,6 +385,7 @@ st.markdown(f"""
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
             <p class="dashboard-title">📓 Grant's Notebook</p>
+            <p style="font-size:0.75rem; color:#94a3b8; margin-top:0.1rem; font-style:italic;">Only Big G allowed</p>
             <p class="dashboard-subtitle">Last refreshed: {now_et.strftime("%b %d, %Y  %I:%M:%S %p")} ET</p>
         </div>
         <div>
@@ -458,7 +459,7 @@ st.dataframe(
         subset=["$ PnL", "% Return", "$ PnL (1D)", "Return (1D) %",
                 "$ PnL (MTD)", "Return (MTD) %", "$ PnL (YTD)", "Return (YTD) %"],
     ),
-    width="stretch",
+    use_container_width=True,
     height=600,
     hide_index=True,
 )
@@ -500,7 +501,7 @@ with tab_balance:
             height=500,
             margin=dict(l=60, r=20, t=60, b=40),
         )
-        st.plotly_chart(fig_bal, width="stretch")
+        st.plotly_chart(fig_bal, use_container_width=True)
     else:
         st.info("No balance history recorded yet.")
 
@@ -539,7 +540,7 @@ with tab_pnl:
             height=500,
             margin=dict(l=80, r=20, t=60, b=40),
         )
-        st.plotly_chart(fig_pnl, width="stretch")
+        st.plotly_chart(fig_pnl, use_container_width=True)
 
 # --- Allocation Pie ---
 with tab_alloc:
@@ -585,7 +586,7 @@ with tab_alloc:
             x=0.5, y=0.5, font_size=14, showarrow=False, font_color="#e5e7eb",
         )],
     )
-    st.plotly_chart(fig_pie, width="stretch")
+    st.plotly_chart(fig_pie, use_container_width=True)
 
 # --- Returns Bar ---
 with tab_returns:
@@ -612,7 +613,7 @@ with tab_returns:
         height=max(500, len(ret_data) * 22),
         margin=dict(l=80, r=20, t=60, b=40),
     )
-    st.plotly_chart(fig_ret, width="stretch")
+    st.plotly_chart(fig_ret, use_container_width=True)
 
 # --- Holding Age ---
 with tab_age:
@@ -631,7 +632,7 @@ with tab_age:
                 "ticker": "Ticker", "name": "Name", "date_bought": "Date Bought",
                 "hold_years": "Years Held", "shares": "Shares", "return_pct": "% Return",
             }).style.format({"Years Held": "{:.1f}", "Shares": "{:,.0f}", "% Return": "{:,.1f}%"}),
-            width="stretch",
+            use_container_width=True,
             hide_index=True,
         )
 
@@ -644,7 +645,7 @@ with tab_age:
                 "ticker": "Ticker", "name": "Name", "date_bought": "Date Bought",
                 "hold_years": "Years Held", "shares": "Shares", "return_pct": "% Return",
             }).style.format({"Years Held": "{:.1f}", "Shares": "{:,.0f}", "% Return": "{:,.1f}%"}),
-            width="stretch",
+            use_container_width=True,
             hide_index=True,
         )
 
