@@ -59,12 +59,13 @@ def main():
         prices["Foreign Stock"] = float(foreign_row["buy_price"].iloc[0])
 
     # ── Append to daily_closes.csv ──────────────────────────────────────────
-    closes_df = pd.read_csv(CLOSES_PATH, parse_dates=["date"])
+    closes_df = pd.read_csv(CLOSES_PATH)
+    closes_df["date"] = pd.to_datetime(closes_df["date"]).astype(str)
 
     # Don't duplicate if already run today
-    if today_str in closes_df["date"].astype(str).values:
+    if today_str in closes_df["date"].values:
         print(f"Warning: {today_str} already exists in daily_closes.csv. Updating row.")
-        closes_df = closes_df[closes_df["date"].astype(str) != today_str]
+        closes_df = closes_df[closes_df["date"] != today_str]
 
     # Build new row with all column tickers
     new_row = {"date": today_str}
@@ -88,11 +89,12 @@ def main():
 
     total_value = round(total_value)
 
-    balance_df = pd.read_csv(BALANCE_PATH, parse_dates=["date"])
+    balance_df = pd.read_csv(BALANCE_PATH)
+    balance_df["date"] = pd.to_datetime(balance_df["date"]).astype(str)
 
-    if today_str in balance_df["date"].astype(str).values:
+    if today_str in balance_df["date"].values:
         print(f"Warning: {today_str} already in portfolio_balance.csv. Updating.")
-        balance_df = balance_df[balance_df["date"].astype(str) != today_str]
+        balance_df = balance_df[balance_df["date"] != today_str]
 
     balance_df = pd.concat([
         balance_df,
