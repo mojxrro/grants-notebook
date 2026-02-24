@@ -458,7 +458,7 @@ st.dataframe(
         subset=["$ PnL", "% Return", "$ PnL (1D)", "Return (1D) %",
                 "$ PnL (MTD)", "Return (MTD) %", "$ PnL (YTD)", "Return (YTD) %"],
     ),
-    use_container_width=True,
+    width="stretch",
     height=600,
     hide_index=True,
 )
@@ -500,7 +500,7 @@ with tab_balance:
             height=500,
             margin=dict(l=60, r=20, t=60, b=40),
         )
-        st.plotly_chart(fig_bal, use_container_width=True)
+        st.plotly_chart(fig_bal, width="stretch")
     else:
         st.info("No balance history recorded yet.")
 
@@ -539,7 +539,7 @@ with tab_pnl:
             height=500,
             margin=dict(l=80, r=20, t=60, b=40),
         )
-        st.plotly_chart(fig_pnl, use_container_width=True)
+        st.plotly_chart(fig_pnl, width="stretch")
 
 # --- Allocation Pie ---
 with tab_alloc:
@@ -585,7 +585,7 @@ with tab_alloc:
             x=0.5, y=0.5, font_size=14, showarrow=False, font_color="#e5e7eb",
         )],
     )
-    st.plotly_chart(fig_pie, use_container_width=True)
+    st.plotly_chart(fig_pie, width="stretch")
 
 # --- Returns Bar ---
 with tab_returns:
@@ -612,7 +612,7 @@ with tab_returns:
         height=max(500, len(ret_data) * 22),
         margin=dict(l=80, r=20, t=60, b=40),
     )
-    st.plotly_chart(fig_ret, use_container_width=True)
+    st.plotly_chart(fig_ret, width="stretch")
 
 # --- Holding Age ---
 with tab_age:
@@ -631,7 +631,7 @@ with tab_age:
                 "ticker": "Ticker", "name": "Name", "date_bought": "Date Bought",
                 "hold_years": "Years Held", "shares": "Shares", "return_pct": "% Return",
             }).style.format({"Years Held": "{:.1f}", "Shares": "{:,.0f}", "% Return": "{:,.1f}%"}),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -644,7 +644,7 @@ with tab_age:
                 "ticker": "Ticker", "name": "Name", "date_bought": "Date Bought",
                 "hold_years": "Years Held", "shares": "Shares", "return_pct": "% Return",
             }).style.format({"Years Held": "{:.1f}", "Shares": "{:,.0f}", "% Return": "{:,.1f}%"}),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
