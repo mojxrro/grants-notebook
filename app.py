@@ -87,14 +87,14 @@ st.markdown("""
         margin-bottom: 1.2rem;
     }
     .dashboard-title {
-        font-size: 2rem;
+        font-size: 3rem;
         font-weight: 700;
         color: #f1f5f9;
         margin: 0;
         letter-spacing: -0.5px;
     }
     .dashboard-subtitle {
-        font-size: 0.85rem;
+        font-size: 0.6rem;
         color: #64748b;
         margin-top: 0.25rem;
         font-family: 'JetBrains Mono', monospace;
@@ -387,7 +387,7 @@ st.markdown(f"""
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
             <p class="dashboard-title">📓 Grant's Notebook</p>
-            <p style="font-size:0.75rem; color:#94a3b8; margin-top:0.1rem; font-style:italic;">Only Big G allowed</p>
+            <p style="font-size:1.25rem; color:#94a3b8; margin-top:0.1rem; font-style:italic;">Only Big G allowed</p>
             <p class="dashboard-subtitle">Last refreshed: {now_et.strftime("%b %d, %Y  %I:%M:%S %p")} ET</p>
         </div>
         <div>
