@@ -83,6 +83,8 @@ def main():
     total_value = 0.0
     for _, row in holdings.iterrows():
         ticker = row["ticker"]
+        if ticker == "Foreign Stock":
+            continue
         shares = row["shares"]
         price = prices.get(ticker, 0)
         total_value += shares * price
