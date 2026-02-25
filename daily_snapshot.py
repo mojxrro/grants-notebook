@@ -79,17 +79,18 @@ def main():
     closes_df.to_csv(CLOSES_PATH, index=False)
     print(f"Appended closes for {today_str} to daily_closes.csv")
 
-    # ── Compute portfolio balance and append ────────────────────────────────
+    # ── Compute portfolio balance (PnL = current value − cost basis) ───────
     total_value = 0.0
+    total_cost = 0.0
     for _, row in holdings.iterrows():
         ticker = row["ticker"]
-        if ticker == "Foreign Stock":
-            continue
         shares = row["shares"]
+        buy_price = row["buy_price"]
         price = prices.get(ticker, 0)
         total_value += shares * price
+        total_cost += shares * buy_price
 
-    total_value = round(total_value)
+    balance = round(total_value - total_cost)
 
     balance_df = pd.read_csv(BALANCE_PATH)
     balance_df["date"] = pd.to_datetime(balance_df["date"]).astype(str)
@@ -100,11 +101,11 @@ def main():
 
     balance_df = pd.concat([
         balance_df,
-        pd.DataFrame([{"date": today_str, "balance": total_value}])
+        pd.DataFrame([{"date": today_str, "balance": balance}])
     ], ignore_index=True)
     balance_df = balance_df.sort_values("date").reset_index(drop=True)
     balance_df.to_csv(BALANCE_PATH, index=False)
-    print(f"Appended balance ${total_value:,} for {today_str}")
+    print(f"Appended balance ${balance:,} (PnL) for {today_str}")
 
     print("Daily snapshot complete.")
 
