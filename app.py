@@ -55,11 +55,6 @@ try:
 except ImportError:
     pass  # graceful fallback if package missing
 
-# ─── Paths ──────────────────────────────────────────────────────────────────────
-DATA_DIR = Path(__file__).parent / "data"
-HOLDINGS_PATH = DATA_DIR / "holdings.csv"
-BALANCE_PATH = DATA_DIR / "portfolio_balance.csv"
-CLOSES_PATH = DATA_DIR / "daily_closes.csv"
 
 ET = pytz.timezone("US/Eastern")
 
@@ -277,16 +272,11 @@ def fetch_live_prices(tickers: tuple) -> dict:
 
 @st.cache_data(ttl=300)
 def load_balance_history() -> pd.DataFrame:
-    df = pd.read_csv(BALANCE_PATH, parse_dates=["date"])
-    df = df.sort_values("date").reset_index(drop=True)
-    return df
-
+    return pd.DataFrame()
 
 @st.cache_data(ttl=300)
 def load_daily_closes() -> pd.DataFrame:
-    df = pd.read_csv(CLOSES_PATH, parse_dates=["date"])
-    df = df.sort_values("date").reset_index(drop=True)
-    return df
+    return pd.DataFrame() df
 
 
 # ─── Build Portfolio DataFrame ──────────────────────────────────────────────────
@@ -306,7 +296,7 @@ def build_portfolio(holdings: pd.DataFrame, live_prices: dict, closes_df: pd.Dat
     df["return_pct"] = (df["pnl_total"] / df["total_buy"]) * 100
 
     # Historical reference prices
-    if not closes_df.empty:
+    if closes_df is not None and not closes_df.empty:
         last_row = closes_df.iloc[-1]
         today = pd.Timestamp.today().normalize()
         current_month_start = today.replace(day=1)
