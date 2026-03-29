@@ -1,0 +1,7 @@
+.streamlit/secrets.toml
+data/holdings.csv
+data/daily_closes.csv
+data/portfolio_balance.csv
+.env
+__pycache__/
+*.pyc
