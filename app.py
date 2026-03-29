@@ -276,7 +276,7 @@ def load_balance_history() -> pd.DataFrame:
 
 @st.cache_data(ttl=300)
 def load_daily_closes() -> pd.DataFrame:
-    return pd.DataFrame() df
+    return pd.DataFrame()
 
 
 # ─── Build Portfolio DataFrame ──────────────────────────────────────────────────
