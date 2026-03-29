@@ -272,11 +272,13 @@ def fetch_live_prices(tickers: tuple) -> dict:
 
 @st.cache_data(ttl=300)
 def load_balance_history() -> pd.DataFrame:
-    return pd.DataFrame()
+    df = pd.read_csv("data/portfolio_balance.csv", parse_dates=["date"])
+    return df.sort_values("date").reset_index(drop=True)
 
 @st.cache_data(ttl=300)
 def load_daily_closes() -> pd.DataFrame:
-    return pd.DataFrame()
+    df = pd.read_csv("data/daily_closes.csv", parse_dates=["date"])
+    return df.sort_values("date").reset_index(drop=True)
 
 
 # ─── Build Portfolio DataFrame ──────────────────────────────────────────────────
@@ -359,8 +361,8 @@ def build_portfolio(holdings: pd.DataFrame, live_prices: dict, closes_df: pd.Dat
 # ─── MAIN APP ───────────────────────────────────────────────────────────────────
 
 holdings = load_holdings()
-closes_df = pd.DataFrame()
-balance_hist = pd.DataFrame()
+closes_df = load_daily_closes()
+balance_hist = load_balance_history()
 
 # Fetch live prices
 stock_tickers = tuple(holdings[holdings["ticker"] != "Foreign Stock"]["ticker"].tolist())
