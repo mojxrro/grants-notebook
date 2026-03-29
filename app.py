@@ -235,9 +235,12 @@ def render_kpi(col, label: str, value_str: str, sub_str: str = "", delta_val: fl
 
 # ─── Load Holdings ──────────────────────────────────────────────────────────────
 
+import io
+
 @st.cache_data(ttl=300)
 def load_holdings() -> pd.DataFrame:
-    df = pd.read_csv(HOLDINGS_PATH)
+    raw_csv = st.secrets["private_data"]["holdings_csv"]
+    df = pd.read_csv(io.StringIO(raw_csv))
     df["date_bought"] = pd.to_datetime(df["date_bought"], format="%m/%d/%Y")
     return df
 
@@ -366,8 +369,8 @@ def build_portfolio(holdings: pd.DataFrame, live_prices: dict, closes_df: pd.Dat
 # ─── MAIN APP ───────────────────────────────────────────────────────────────────
 
 holdings = load_holdings()
-closes_df = load_daily_closes()
-balance_hist = load_balance_history()
+closes_df = pd.DataFrame()
+balance_hist = pd.DataFrame()
 
 # Fetch live prices
 stock_tickers = tuple(holdings[holdings["ticker"] != "Foreign Stock"]["ticker"].tolist())
