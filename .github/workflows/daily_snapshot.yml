@@ -17,7 +17,10 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
+        
+      - name: Restore holdings.csv
+        run: echo "${{ secrets.HOLDINGS_CSV }}" | base64 -d > data/holdings.csv
+        
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
